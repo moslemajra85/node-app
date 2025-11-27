@@ -1,6 +1,12 @@
 import express from "express";
 import colors from "colors";
-// import movies from "./movies.js";
+import { authUser } from "./middlewares/auth.js";
+import { logger } from "./middlewares/log.js";
+import dotenv from "dotenv";
+import { ConnectDB } from "./db/connect.js";
+
+dotenv.config();
+ConnectDB();
 
 let movies = [
   {
@@ -43,8 +49,8 @@ let movies = [
 const app = express();
 
 app.use(express.json());
-
-const port = 3000;
+app.use(logger);
+app.use(authUser);
 
 app.get("/", (req, res) => {
   res.send("Hello From Our Server!");
@@ -108,6 +114,11 @@ app.delete("/filmMaker/api/movies/:id", (req, res) => {
   res.send(result);
 });
 
+const port = process.env.PORT || 9000;
+
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`.bgBlue.bold);
+  console.log(
+    `Server is running on http://localhost:${port} in ${process.env.NODE_ENV} mode`
+      .bgBlue.bold
+  );
 });
