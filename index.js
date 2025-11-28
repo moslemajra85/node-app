@@ -5,6 +5,8 @@ import { logger } from "./middlewares/log.js";
 import dotenv from "dotenv";
 import { ConnectDB } from "./db/connect.js";
 
+import { Movie } from "./models/movie.js";
+
 dotenv.config();
 ConnectDB();
 
@@ -56,8 +58,12 @@ app.get("/", (req, res) => {
   res.send("Hello From Our Server!");
 });
 
-app.get("/filmMaker/api/movies", (req, res) => {
-  res.send(movies);
+app.get("/filmMaker/api/movies", async (req, res) => {
+  try {
+    const movies = await Movie.find();
+
+    res.status(200).send(movies);
+  } catch (error) {}
 });
 
 app.get("/filmMaker/api/movies/:id", (req, res) => {

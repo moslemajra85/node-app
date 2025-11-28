@@ -4,7 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "data:create":"node seed.js --create",
+    "data:destroy": "node seed.js --destroy"
   },
   "keywords": [],
   "author": "",
