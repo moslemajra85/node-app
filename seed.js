@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Movie } from "./models/movie.js";
+import Genre from "./models/genre.js";
 import colors from "colors";
 import dotenv from "dotenv";
 
@@ -16,36 +17,92 @@ mongoose
 
 async function createData() {
   try {
+    await Genre.deleteMany();
     await Movie.deleteMany();
 
+    const genres = await Genre.insertMany([
+      { name: "Science Fiction" },
+      { name: "Action" },
+      { name: "Crime" },
+      { name: "Drama" },
+      { name: "Thriller" },
+    ]);
+
+    const genreMap = genres.reduce((acc, genre) => {
+      acc[genre.name] = genre._id;
+      return acc;
+    }, {});
+
     const movies = [
-      { title: "Inception", director: "Christopher Nolan", price: 19.99 },
-      { title: "Interstellar", director: "Christopher Nolan", price: 17.5 },
-      { title: "The Dark Knight", director: "Christopher Nolan", price: 15.99 },
-      { title: "Pulp Fiction", director: "Quentin Tarantino", price: 14.0 },
+      {
+        title: "Inception",
+        director: "Christopher Nolan",
+        price: 19.99,
+        genre: genreMap["Science Fiction"],
+      },
+      {
+        title: "Interstellar",
+        director: "Christopher Nolan",
+        price: 17.5,
+        genre: genreMap["Science Fiction"],
+      },
+      {
+        title: "The Dark Knight",
+        director: "Christopher Nolan",
+        price: 15.99,
+        genre: genreMap["Action"],
+      },
+      {
+        title: "Pulp Fiction",
+        director: "Quentin Tarantino",
+        price: 14.0,
+        genre: genreMap["Crime"],
+      },
       {
         title: "The Matrix",
         director: "Lana Wachowski & Lilly Wachowski",
         price: 18.25,
+        genre: genreMap["Science Fiction"],
       },
-      { title: "The Social Network", director: "David Fincher", price: 13.5 },
-      { title: "Avatar", director: "James Cameron", price: 20.0 },
+      {
+        title: "The Social Network",
+        director: "David Fincher",
+        price: 13.5,
+        genre: genreMap["Drama"],
+      },
+      {
+        title: "Avatar",
+        director: "James Cameron",
+        price: 20.0,
+        genre: genreMap["Science Fiction"],
+      },
       {
         title: "The Godfather",
         director: "Francis Ford Coppola",
         price: 16.75,
+        genre: genreMap["Crime"],
       },
-      { title: "Whiplash", director: "Damien Chazelle", price: 12.99 },
-      { title: "Parasite", director: "Bong Joon-ho", price: 15.0 },
+      {
+        title: "Whiplash",
+        director: "Damien Chazelle",
+        price: 12.99,
+        genre: genreMap["Drama"],
+      },
+      {
+        title: "Parasite",
+        director: "Bong Joon-ho",
+        price: 15.0,
+        genre: genreMap["Thriller"],
+      },
     ];
 
-    Movie.insertMany(movies);
+    await Movie.insertMany(movies);
 
     mongoose.disconnect();
 
     console.log("Data Created Successfully".green.bold);
   } catch (error) {
-    console.log("Priblem While inserting data: ".red.bold, err);
+    console.log("Problem While inserting data: ".red.bold, error);
   }
 }
 
@@ -53,11 +110,12 @@ async function createData() {
 
 async function destroyData() {
   try {
+    await Genre.deleteMany();
     await Movie.deleteMany();
     mongoose.disconnect();
     console.log("Data Destroyed Successfully".green.bold);
   } catch (error) {
-    console.log("Problem While destroying data: ".red.bold, err);
+    console.log("Problem While destroying data: ".red.bold, error);
   }
 }
 

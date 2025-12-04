@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import { ConnectDB } from "./db/connect.js";
 import { Movie } from "./models/movie.js";
 import MoviesRouter from "./routes/moviesRoutes.js";
+import GenreRouter from "./routes/genreRoutes.js";
+
 dotenv.config();
 ConnectDB();
 
@@ -15,6 +17,7 @@ app.use(express.json());
 app.use(logger);
 app.use(authUser);
 app.use("/filmMaker/api/movies", MoviesRouter);
+app.use("/filmMaker/api/genres", GenreRouter);
 
 const port = process.env.PORT || 9000;
 

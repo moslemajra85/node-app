@@ -6,6 +6,10 @@ const movieSchema = new mongoose.Schema({
   title: String,
   director: String,
   price: Number,
+  genre: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Genre",
+  },
   releaseDate: {
     type: Date,
     default: Date.now(),
