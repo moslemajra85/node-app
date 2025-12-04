@@ -57,7 +57,7 @@ async function destroyData() {
     mongoose.disconnect();
     console.log("Data Destroyed Successfully".green.bold);
   } catch (error) {
-    console.log("Priblem While destroying data: ".red.bold, err);
+    console.log("Problem While destroying data: ".red.bold, err);
   }
 }
 
