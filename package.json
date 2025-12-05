@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon index.js",
-    "data:create":"node seed.js --create",
+    "data:create": "node seed.js --create",
     "data:destroy": "node seed.js --destroy"
   },
   "keywords": [],
@@ -14,8 +14,10 @@
   "description": "",
   "dependencies": {
     "colors": "^1.4.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "joi": "^18.0.2",
     "mongoose": "^9.0.0",
     "nodemon": "^3.1.11"
   }

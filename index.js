@@ -3,6 +3,7 @@ import colors from "colors";
 import { authUser } from "./middlewares/auth.js";
 import { logger } from "./middlewares/log.js";
 import dotenv from "dotenv";
+import cors from "cors";
 import { ConnectDB } from "./db/connect.js";
 import { Movie } from "./models/movie.js";
 import MoviesRouter from "./routes/moviesRoutes.js";
@@ -13,6 +14,7 @@ ConnectDB();
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(logger);
 app.use(authUser);
